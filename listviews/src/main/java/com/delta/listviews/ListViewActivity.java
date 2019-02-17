@@ -4,12 +4,16 @@ import android.app.Activity;
 import android.app.ActionBar;
 import android.app.Fragment;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.os.Build;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 public class ListViewActivity extends Activity {
     //initial data
@@ -43,10 +47,33 @@ public class ListViewActivity extends Activity {
             "Spawrk's House",
     };
 
+    private ListView mListView;
+    private PlaceAdapter mPlaceAdapter;
+    //private ArrayAdapter mArrayAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_list_view);
+
+        mListView = (ListView) findViewById(R.id.myListView);
+
+        //mArrayAdapter = new ArrayAdapter(this, android.R.layout.simple_list_item_1, myStringArray);
+        mPlaceAdapter = new PlaceAdapter(getApplicationContext(), R.layout.row, myPlacesArray);
+
+
+        if (mListView != null) {
+            //mListView.setAdapter(mArrayAdapter);
+            mListView.setAdapter(mPlaceAdapter);
+        }
+
+        mListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Log.v("PLACE", myStringArray[position]);
+                Log.v("PLACE", myPlacesArray[position].mNameOfPlace);
+            }
+        });
 
     }
 
